@@ -7,9 +7,9 @@ interface TmdbAPI {
     @GET("trending/movie/week")
     suspend fun films_tendance(@Query("api_key") api_key:String): Films
 
-    @GET("trending/movie/week")
-    suspend fun series_tendance(@Query("api_key") api_key:String): Films
+    @GET("trending/tv/week")
+    suspend fun series_tendance(@Query("api_key") api_key:String): Series
 
-    @GET("trending/movie/week")
-    suspend fun acteurs_tendance(@Query("api_key") api_key:String): Films
+    @GET("trending/person/week")
+    suspend fun acteurs_tendance(@Query("api_key") api_key:String): Acteurs
 }

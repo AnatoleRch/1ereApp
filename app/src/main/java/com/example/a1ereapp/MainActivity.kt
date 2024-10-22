@@ -53,9 +53,11 @@ class MainActivity : ComponentActivity() {
                     composable("EcranFilms") { EcranFilms(navController, viewModel()) }
                     composable("EcranSeries") { EcranSeries(navController, viewModel()) }
                     composable("EcranActeurs") { EcranActeurs(navController, viewModel()) }
-                    composable("DetailsFilm") { }
-                    composable("DetailsSerie") { }
-                    composable("DetailsActeur") { }
+                    composable("DetailsFilm/{filmId}") {backStackEntry ->
+                        val filmId = backStackEntry.arguments?.getString("filmId")
+                        DetailsFilm(navController = navController, viewModel = viewModel, filmId = filmId) }
+                    composable("DetailsSerie") { DetailsSerie(navController, viewModel()) }
+                    composable("DetailsActeur") { DetailsActeur(navController, viewModel()) }
                 }
             }
         }
@@ -69,7 +71,10 @@ fun BottomNavBar(navController: NavController) {
     val icons = listOf(R.drawable.home, R.drawable.movie, R.drawable.tv, R.drawable.person)
     val currentBackStackEntry = navController.currentBackStackEntryAsState()
     val currentRoute = currentBackStackEntry.value?.destination?.route
-    NavigationBar(containerColor = Color(0xFF0c761d) , contentColor = Color.Black) {
+    NavigationBar(
+        //containerColor = Color(0xFF0c761d),
+        contentColor = Color.Black
+    ) {
         destinations.forEachIndexed { index, destination ->
             NavigationBarItem(
                 icon = {
@@ -90,7 +95,7 @@ fun BottomNavBar(navController: NavController) {
                     unselectedIconColor = Color.Black ,
                     unselectedTextColor = Color.Black,
                     selectedTextColor = Color.Black,
-                    indicatorColor =  Color(0xFFb3ff7a)
+                    //indicatorColor =  Color(0xFFb3ff7a)
                 )
             )
         }

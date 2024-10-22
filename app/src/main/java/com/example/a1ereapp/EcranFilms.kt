@@ -33,7 +33,7 @@ fun EcranFilms(
 
     // Appel de l'effet pour charger les films
     LaunchedEffect(true) {
-        viewModel.get_film_tendance()
+        viewModel.get_films_tendance()
     }
 
     // Affichage des films en 2 colonnes avec affichage des posters et titres
@@ -59,7 +59,7 @@ fun FilmItem(film: Film, onClick: () -> Unit) {
             .padding(8.dp)
             .clickable(onClick = onClick),
         colors = CardDefaults.cardColors(
-            containerColor = Color(0xFFb3ff7a) ,
+            //containerColor = Color(0xFFb3ff7a) ,
             contentColor = Color.Black
         )
     ) {
@@ -68,7 +68,6 @@ fun FilmItem(film: Film, onClick: () -> Unit) {
                 .padding(8.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            // Affiche l'image du film avec Coil
             AsyncImage(
                 model = "https://image.tmdb.org/t/p/w500${film.poster_path}",
                 contentDescription = "https://image.tmdb.org/t/p/w500${film.poster_path}",
@@ -76,7 +75,6 @@ fun FilmItem(film: Film, onClick: () -> Unit) {
                     .fillMaxWidth()
                     .padding(bottom = 8.dp),
             )
-            // Affiche le titre sous l'image
             Text(
                 text = film.original_title,
                 color = Color.Black,
