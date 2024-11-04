@@ -44,7 +44,7 @@ fun EcranSeries(
         items(series) { serie ->
             // Naviguer vers l'écran DetailsFilm avec l'ID du film
             SerieItem(serie = serie, onClick = {
-                navController.navigate("DetailsFilm/${serie.id}")
+                navController.navigate("DetailsSerie/${serie.id}")
             })
         }
     }

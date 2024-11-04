@@ -28,22 +28,18 @@ fun EcranFilms(
     navController: NavController,
     viewModel: MainViewModel,
 ) {
-
     val films by viewModel.movies.collectAsState()
 
-    // Appel de l'effet pour charger les films
-    LaunchedEffect(true) {
+    LaunchedEffect(Unit) {
         viewModel.get_films_tendance()
     }
 
-    // Affichage des films en 2 colonnes avec affichage des posters et titres
+    // Affichage des films en 2 colonnes
     LazyVerticalGrid(
-        columns = GridCells.Fixed(2), // Utilise 2 colonnes
+        columns = GridCells.Fixed(2),
         modifier = Modifier.padding(8.dp),
-
     ) {
         items(films) { film ->
-            // Naviguer vers l'écran DetailsFilm avec l'ID du film
             FilmItem(film = film, onClick = {
                 navController.navigate("DetailsFilm/${film.id}")
             })

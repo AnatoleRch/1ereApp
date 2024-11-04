@@ -1,5 +1,6 @@
 package com.example.a1ereapp
 
+import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -44,7 +45,8 @@ fun EcranActeurs(
         items(acteurs) { acteur ->
             // Naviguer vers l'écran DetailsFilm avec l'ID du film
             ActeurItem(acteur = acteur, onClick = {
-                navController.navigate("DetailsActeurs/${acteur.id}")
+                navController.navigate("DetailsActeur/${acteur.id}")
+                Log.d("id","DetailsActeur/${acteur.id}")
             })
         }
     }
