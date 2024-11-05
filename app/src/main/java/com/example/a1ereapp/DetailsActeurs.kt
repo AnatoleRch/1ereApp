@@ -46,15 +46,13 @@ fun DetailsActeur(
 
     actor?.let { actorDetails ->
         LazyColumn(modifier = Modifier.fillMaxSize()) {
-
-
             item {
                 Row() {
                     if (actorDetails.profile_path == null) {
                         Icon(
                             painter = painterResource(id = R.drawable.person),
                             contentDescription = "user Icon",
-                            modifier = Modifier.size(150.dp)
+                            modifier = Modifier.size(600.dp)
                         )
                     } else {
                         AsyncImage(
