@@ -17,6 +17,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -42,7 +43,6 @@ fun EcranSeries(
 
         ) {
         items(series) { serie ->
-            // Naviguer vers l'écran DetailsFilm avec l'ID du film
             SerieItem(serie = serie, onClick = {
                 navController.navigate("DetailsSerie/${serie.id}")
             })
@@ -78,7 +78,8 @@ fun SerieItem(serie: Serie, onClick: () -> Unit) {
                 text = serie.name,
                 color = Color.Black,
                 fontSize = 16.sp,
-                textAlign = TextAlign.Center
+                textAlign = TextAlign.Center ,
+                fontWeight = FontWeight.SemiBold
             )
         }
     }

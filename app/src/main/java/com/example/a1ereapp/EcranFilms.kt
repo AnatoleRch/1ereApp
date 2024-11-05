@@ -18,6 +18,7 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -75,7 +76,8 @@ fun FilmItem(film: Film, onClick: () -> Unit) {
                 text = film.original_title,
                 color = Color.Black,
                 fontSize = 16.sp,
-                textAlign = TextAlign.Center
+                textAlign = TextAlign.Center,
+                fontWeight = FontWeight.SemiBold
             )
         }
     }

@@ -58,6 +58,7 @@ interface TmdbAPI {
     @GET("person/{id}")
     suspend fun details_acteur(
         @Path("id") id: Int,               // L'ID de l'acteur sera passé ici
-        @Query("api_key") api_key: String   // Clé API pour authentification
+        @Query("api_key") api_key: String,   // Clé API pour authentification
+        @Query("append_to_response") appendToResponse: String = "credits"
     ): DetailsDeLActeur
 }

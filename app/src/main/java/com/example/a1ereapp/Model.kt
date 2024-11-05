@@ -158,7 +158,7 @@ data class DetailsDeLaSerie(
     val credits: Credits = Credits(),
     val episode_run_time: List<Int> = listOf(),
     val first_air_date: String = "",
-    val genres: List<Any> = listOf(),
+    val genres: List<Genre> = listOf(),
     val homepage: String = "",
     val id: Int = 0,
     val in_production: Boolean = false,
@@ -251,6 +251,7 @@ data class DetailsDeLActeur(
     val also_known_as: List<String> = listOf(),
     val biography: String = "",
     val birthday: String = "",
+    val credits: CreditsActeur = CreditsActeur(),
     val deathday: Any = Any(),
     val gender: Int = 0,
     val homepage: Any = Any(),
@@ -261,4 +262,29 @@ data class DetailsDeLActeur(
     val place_of_birth: String = "",
     val popularity: Double = 0.0,
     val profile_path: String = ""
+)
+
+data class CreditsActeur(
+    val cast: List<CastActeur> = listOf(),
+    val crew: List<Any> = listOf()
+)
+
+data class CastActeur(
+    val adult: Boolean = false,
+    val backdrop_path: String = "",
+    val character: String = "",
+    val credit_id: String = "",
+    val genre_ids: List<Int> = listOf(),
+    val id: Int = 0,
+    val order: Int = 0,
+    val original_language: String = "",
+    val original_title: String = "",
+    val overview: String = "",
+    val popularity: Double = 0.0,
+    val poster_path: String = "",
+    val release_date: String = "",
+    val title: String = "",
+    val video: Boolean = false,
+    val vote_average: Double = 0.0,
+    val vote_count: Int = 0
 )

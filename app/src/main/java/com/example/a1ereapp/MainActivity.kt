@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
@@ -24,7 +25,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
-
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -164,4 +164,42 @@ fun BottomNavBar(navController: NavController) {
     }
 }
 
+@Composable
+fun SearchBar(
+    query: String,
+    onQueryChange: (String) -> Unit,
+    onSearch: (String) -> Unit,
+) {
+    var isSearching by remember { mutableStateOf(false) }
 
+    TextField(
+        value = query,
+        onValueChange = { newValue ->
+            onQueryChange(newValue)
+            isSearching = newValue.isNotEmpty()
+        },
+
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(Color.White)
+            .padding(8.dp),
+        placeholder = { Text("Rechercher...") },
+        leadingIcon = {
+            Icon(
+                imageVector = Icons.Default.Search,
+                contentDescription = "Search Icon"
+            )
+        },
+        trailingIcon = {
+            if (isSearching) {
+                IconButton(onClick = { onQueryChange("") }) {
+                    Icon(
+                        imageVector = Icons.Default.Close,
+                        contentDescription = "Clear Search"
+                    )
+                }
+            }
+        },
+        singleLine = true,
+    )
+}
