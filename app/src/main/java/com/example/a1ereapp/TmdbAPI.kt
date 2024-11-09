@@ -45,20 +45,23 @@ interface TmdbAPI {
     suspend fun details_film(
         @Path("id") id: Int,               // L'ID de l'acteur sera passé ici
         @Query("api_key") api_key: String,   // Clé API pour authentification
-        @Query("append_to_response") appendToResponse: String = "credits"
+        @Query("append_to_response") appendToResponse: String = "credits",
+        @Query("language") language: String ="fr"
     ): DetailsDuFilm
 
     @GET("tv/{id}")
     suspend fun details_serie(
         @Path("id") id: Int,               // L'ID de l'acteur sera passé ici
         @Query("api_key") api_key: String,   // Clé API pour authentification
-        @Query("append_to_response") appendToResponse: String = "credits"
+        @Query("append_to_response") appendToResponse: String = "credits",
+        @Query("language") language: String ="fr"
     ): DetailsDeLaSerie
 
     @GET("person/{id}")
     suspend fun details_acteur(
         @Path("id") id: Int,               // L'ID de l'acteur sera passé ici
         @Query("api_key") api_key: String,   // Clé API pour authentification
-        @Query("append_to_response") appendToResponse: String = "credits"
+        @Query("append_to_response") appendToResponse: String = "credits",
+        @Query("language") language: String ="fr"
     ): DetailsDeLActeur
 }

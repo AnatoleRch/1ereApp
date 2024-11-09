@@ -158,7 +158,7 @@ fun DetailsFilm(
 
 @Composable
 fun details(film: DetailsDuFilm) {
-        Column(modifier = Modifier.width(390.dp).padding(start = 16.dp)) {
+        Column(modifier = Modifier.width(390.dp).padding(start = 16.dp).padding(bottom = 16.dp)) {
         Text(
             text = film.title,
             style = MaterialTheme.typography.headlineLarge,

@@ -34,7 +34,7 @@ fun EcranFilms(
 ) {
     val films by viewModel.movies.collectAsState()
 
-    LaunchedEffect(Unit) {
+    LaunchedEffect(true) {
         viewModel.get_films_tendance()
     }
     when (windowSizeClass.windowWidthSizeClass) {
@@ -90,7 +90,7 @@ fun FilmItem(film: Film, onClick: () -> Unit) {
                     .padding(bottom = 8.dp),
             )
             Text(
-                text = film.original_title,
+                text = film.title,
                 color = Color.Black,
                 fontSize = 16.sp,
                 textAlign = TextAlign.Center,

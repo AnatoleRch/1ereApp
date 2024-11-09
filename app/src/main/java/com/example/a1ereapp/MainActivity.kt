@@ -6,6 +6,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -23,6 +24,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SearchBar
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
@@ -60,20 +62,10 @@ class EcranFilms
 class EcranSeries
 @Serializable
 class EcranActeurs
-@Serializable
-class DetailsFilm(
-    val id: Int
-)
-@Serializable
-class DetailsSerie(
-    val id: Int
-)
-@Serializable
-class DetailsActeurs(
-    val id: Int
-)
+
 
 class MainActivity : ComponentActivity() {
+    @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val viewModel: MainViewModel by viewModels()
@@ -83,31 +75,59 @@ class MainActivity : ComponentActivity() {
             val navBackStackEntry by navController.currentBackStackEntryAsState()
             val currentDestination = navBackStackEntry?.destination
             var query by remember { mutableStateOf("") }
-
-            // La fonction onSearch peut être utilisée si vous souhaitez déclencher une recherche
-            val onSearch: (String) -> Unit = { searchQuery ->
-                // Gérer ici la logique de recherche avec `searchQuery`
-                Log.d("Search", "Searching for: $searchQuery")
-            }
+            var active by remember { mutableStateOf(false) }
             Scaffold(
                 topBar = {
                     if (currentDestination?.hasRoute<Acceuil>() != true) {
-                        when (windowSizeClass.windowWidthSizeClass) {
-                            WindowWidthSizeClass.COMPACT -> {
-                                SearchBar(
-                                    query = query,
-                                    onQueryChange = { newQuery -> query = newQuery },
-                                    onSearch = onSearch
+                        SearchBar(
+                            leadingIcon = {
+                                Icon(
+                                    imageVector = Icons.Default.Search,
+                                    contentDescription = "icone search"
                                 )
-                            }
-                            else -> {
-                                SearchBar(
-                                    query = query,
-                                    onQueryChange = { newQuery -> query = newQuery },
-                                    onSearch = onSearch
+                            },
+                            trailingIcon = {
+                                Icon(
+                                    modifier = Modifier.clickable {
+                                        if (query.isNotEmpty()) {
+                                            query = ""
+                                        } else {
+                                            active = false
+                                        }
+                                        if (currentDestination?.hasRoute<EcranFilms>() == true) {
+                                            viewModel.get_films_tendance()
+                                        } else if (currentDestination?.hasRoute<EcranSeries>() == true) {
+                                            viewModel.get_series_tendance()
+                                        } else if (currentDestination?.hasRoute<EcranActeurs>() == true) {
+                                            viewModel.get_acteurs_tendance()
+                                        }
+                                    },
+                                    imageVector = Icons.Default.Close,
+                                    contentDescription = "icone fermeture"
                                 )
+                            },
+                            modifier = Modifier.fillMaxWidth(),
+                            query = query,
+                            onQueryChange = { query = it },
+                            onSearch = {
+                                active = false
+
+                                if (currentDestination?.hasRoute<EcranFilms>() == true) {
+                                    viewModel.rechercherFilms(it)
+                                } else if (currentDestination?.hasRoute<EcranSeries>() == true) {
+                                    viewModel.rechercherSeries(it)
+                                } else if (currentDestination?.hasRoute<EcranActeurs>() == true) {
+                                    viewModel.rechercherActeurs(it)
+                                }
+                            },
+                            active = active,
+                            onActiveChange = { active = it },
+                            placeholder = {
+                                Text(text = "Rechercher")
                             }
+                        ) {
                         }
+
                     }
                 },
                 bottomBar = {
@@ -129,9 +149,9 @@ class MainActivity : ComponentActivity() {
                     Modifier.padding(innerPadding) // Assurer que le contenu ne soit pas masqué par la Bottom Navigation
                 ) {
                     composable<Acceuil> { Acceuil(navController, windowSizeClass) }
-                    composable<EcranFilms> { EcranFilms(navController, viewModel(), windowSizeClass) }
-                    composable<EcranSeries> { EcranSeries(navController, viewModel(), windowSizeClass) }
-                    composable<EcranActeurs> { EcranActeurs(navController, viewModel(), windowSizeClass) }
+                    composable<EcranFilms> { EcranFilms(navController, viewModel, windowSizeClass) }
+                    composable<EcranSeries> { EcranSeries(navController, viewModel, windowSizeClass) }
+                    composable<EcranActeurs> { EcranActeurs(navController, viewModel, windowSizeClass) }
                     composable(
                         "DetailsFilm/{movieId}",
                         arguments = listOf(navArgument("movieId") { type = NavType.IntType })
@@ -220,42 +240,42 @@ fun BottomNavBar(navController: NavController) {
     }
 }
 
-@Composable
-fun SearchBar(
-    query: String,
-    onQueryChange: (String) -> Unit,
-    onSearch: (String) -> Unit,
-) {
-    var isSearching by remember { mutableStateOf(false) }
-
-    TextField(
-        value = query,
-        onValueChange = { newValue ->
-            onQueryChange(newValue)
-            isSearching = newValue.isNotEmpty()
-        },
-
-        modifier = Modifier
-            .fillMaxWidth()
-            .background(Color.White)
-            .padding(4.dp),
-        placeholder = { Text("Rechercher...") },
-        leadingIcon = {
-            Icon(
-                imageVector = Icons.Default.Search,
-                contentDescription = "Search Icon"
-            )
-        },
-        trailingIcon = {
-            if (isSearching) {
-                IconButton(onClick = { onQueryChange("") }) {
-                    Icon(
-                        imageVector = Icons.Default.Close,
-                        contentDescription = "Clear Search"
-                    )
-                }
-            }
-        },
-        singleLine = true,
-    )
-}
+//@Composable
+//fun SearchBar(
+//    query: String,
+//    onQueryChange: (String) -> Unit,
+//    onSearch: (String) -> Unit,
+//) {
+//    var isSearching by remember { mutableStateOf(false) }
+//
+//    TextField(
+//        value = query,
+//        onValueChange = { newValue ->
+//            onQueryChange(newValue)
+//            isSearching = newValue.isNotEmpty()
+//        },
+//
+//        modifier = Modifier
+//            .fillMaxWidth()
+//            .background(Color.White)
+//            .padding(4.dp),
+//        placeholder = { Text("Rechercher...") },
+//        leadingIcon = {
+//            Icon(
+//                imageVector = Icons.Default.Search,
+//                contentDescription = "Search Icon"
+//            )
+//        },
+//        trailingIcon = {
+//            if (isSearching) {
+//                IconButton(onClick = { onQueryChange("") }) {
+//                    Icon(
+//                        imageVector = Icons.Default.Close,
+//                        contentDescription = "Clear Search"
+//                    )
+//                }
+//            }
+//        },
+//        singleLine = true,
+//    )
+//}
