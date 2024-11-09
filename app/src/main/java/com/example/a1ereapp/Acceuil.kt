@@ -29,8 +29,8 @@ import androidx.window.core.layout.WindowSizeClass
 import androidx.window.core.layout.WindowWidthSizeClass
 
 @Composable
-fun Acceuil( navController: NavController, windowClass: WindowSizeClass) {
-    when (windowClass.windowWidthSizeClass) {
+fun Acceuil( navController: NavController, windowSizeClass: WindowSizeClass) {
+    when (windowSizeClass.windowWidthSizeClass) {
         WindowWidthSizeClass.COMPACT -> {
             Column(
                 modifier = Modifier.fillMaxSize(),
@@ -42,12 +42,9 @@ fun Acceuil( navController: NavController, windowClass: WindowSizeClass) {
                 Pres()
                 Spacer(Modifier.height(20.dp))
                 Coordonnees()
-                Button(
-                    onClick = { navController.navigate("EcranFilms") },
-                    colors = ButtonDefaults.buttonColors(containerColor = Color.Blue)
-                ) {
-                    Text(text = "Démarrer", color = Color.White)
-                }
+                Spacer(Modifier.height(20.dp))
+                Demarrer(navController)
+
             }
         }
         else -> {
@@ -74,13 +71,8 @@ fun Acceuil( navController: NavController, windowClass: WindowSizeClass) {
                     Pres()
                     Spacer(Modifier.height(50.dp))
                     Coordonnees()
-
-                    Button(
-                        onClick = { navController.navigate("EcranFilms") },
-                        colors = ButtonDefaults.buttonColors(containerColor = Color.Blue)
-                    ) {
-                        Text(text = "Voir les films", color = Color.White)
-                    }
+                    Spacer(Modifier.height(20.dp))
+                    Demarrer(navController)
                 }
             }
         }
@@ -112,6 +104,16 @@ fun Pres() {
     Text(
         text = "Futur ingénieur informaticien" ,
     )
+}
+
+@Composable
+fun Demarrer(navController: NavController) {
+    Button(
+        onClick = { navController.navigate(EcranFilms()) },
+        colors = ButtonDefaults.buttonColors(containerColor = Color.Blue)
+    ) {
+        Text(text = "Démarrer", color = Color.White)
+    }
 }
 
 @Composable

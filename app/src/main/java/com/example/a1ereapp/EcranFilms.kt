@@ -22,28 +22,45 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.window.core.layout.WindowSizeClass
+import androidx.window.core.layout.WindowWidthSizeClass
 import coil.compose.AsyncImage
 
 @Composable
 fun EcranFilms(
     navController: NavController,
     viewModel: MainViewModel,
+    windowSizeClass: WindowSizeClass
 ) {
     val films by viewModel.movies.collectAsState()
 
     LaunchedEffect(Unit) {
         viewModel.get_films_tendance()
     }
-
-    // Affichage des films en 2 colonnes
-    LazyVerticalGrid(
-        columns = GridCells.Fixed(2),
-        modifier = Modifier.padding(8.dp),
-    ) {
-        items(films) { film ->
-            FilmItem(film = film, onClick = {
-                navController.navigate("DetailsFilm/${film.id}")
-            })
+    when (windowSizeClass.windowWidthSizeClass) {
+        WindowWidthSizeClass.COMPACT -> {
+            LazyVerticalGrid(
+                columns = GridCells.Fixed(2),
+                modifier = Modifier.padding(8.dp),
+            ) {
+                items(films) { film ->
+                    FilmItem(film = film, onClick = {
+                        navController.navigate("DetailsFilm/${film.id}")
+                    })
+                }
+            }
+        }
+        else -> {
+            LazyVerticalGrid(
+                columns = GridCells.Fixed(4),
+                modifier = Modifier.padding(8.dp),
+            ) {
+                items(films) { film ->
+                    FilmItem(film = film, onClick = {
+                        navController.navigate("DetailsFilm/${film.id}")
+                    })
+                }
+            }
         }
     }
 }

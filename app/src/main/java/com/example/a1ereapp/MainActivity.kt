@@ -1,6 +1,7 @@
 package com.example.a1ereapp
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -40,10 +41,37 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
+import kotlinx.serialization.Serializable
+import androidx.navigation.NavDestination.Companion.hasRoute
+import androidx.navigation.NavDestination
 import androidx.navigation.NavController
 import androidx.navigation.NavType
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.navArgument
+import androidx.window.core.layout.WindowWidthSizeClass
+
+
+@Serializable
+class Acceuil
+@Serializable
+class EcranFilms
+@Serializable
+class EcranSeries
+@Serializable
+class EcranActeurs
+@Serializable
+class DetailsFilm(
+    val id: Int
+)
+@Serializable
+class DetailsSerie(
+    val id: Int
+)
+@Serializable
+class DetailsActeurs(
+    val id: Int
+)
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,30 +80,58 @@ class MainActivity : ComponentActivity() {
         setContent {
             val windowSizeClass = currentWindowAdaptiveInfo().windowSizeClass
             val navController = rememberNavController()
+            val navBackStackEntry by navController.currentBackStackEntryAsState()
+            val currentDestination = navBackStackEntry?.destination
+            var query by remember { mutableStateOf("") }
 
-            val currentBackStackEntry = navController.currentBackStackEntryAsState()
-            val currentRoute = currentBackStackEntry.value?.destination?.route
-
+            // La fonction onSearch peut être utilisée si vous souhaitez déclencher une recherche
+            val onSearch: (String) -> Unit = { searchQuery ->
+                // Gérer ici la logique de recherche avec `searchQuery`
+                Log.d("Search", "Searching for: $searchQuery")
+            }
             Scaffold(
                 topBar = {
-                    if (currentRoute != "Acceuil"){
+                    if (currentDestination?.hasRoute<Acceuil>() != true) {
+                        when (windowSizeClass.windowWidthSizeClass) {
+                            WindowWidthSizeClass.COMPACT -> {
+                                SearchBar(
+                                    query = query,
+                                    onQueryChange = { newQuery -> query = newQuery },
+                                    onSearch = onSearch
+                                )
+                            }
+                            else -> {
+                                SearchBar(
+                                    query = query,
+                                    onQueryChange = { newQuery -> query = newQuery },
+                                    onSearch = onSearch
+                                )
+                            }
+                        }
                     }
                 },
                 bottomBar = {
-                    if (currentRoute != "Acceuil") {  // Ne pas afficher la BottomNavBar sur la page Acceuil
-                        BottomNavBar(navController)
+                    if (currentDestination?.hasRoute<Acceuil>() != true) {
+                        when (windowSizeClass.windowWidthSizeClass) {
+                            WindowWidthSizeClass.COMPACT -> {
+                                BottomNavBar(navController)
+                            }
+                            else -> {
+
+                            }
+                        }
                     }
                 }
             ) { innerPadding ->
                 NavHost(
                     navController = navController,
-                    startDestination = "Acceuil",
+                    startDestination = Acceuil(),
                     Modifier.padding(innerPadding) // Assurer que le contenu ne soit pas masqué par la Bottom Navigation
                 ) {
-                    composable("Acceuil") { Acceuil(navController, windowSizeClass) }
-                    composable("EcranFilms") { EcranFilms(navController, viewModel()) }
-                    composable("EcranSeries") { EcranSeries(navController, viewModel()) }
-                    composable("EcranActeurs") { EcranActeurs(navController, viewModel()) }
+                    composable<Acceuil> { Acceuil(navController, windowSizeClass) }
+                    composable<EcranFilms> { EcranFilms(navController, viewModel(), windowSizeClass) }
+                    composable<EcranSeries> { EcranSeries(navController, viewModel(), windowSizeClass) }
+                    composable<EcranActeurs> { EcranActeurs(navController, viewModel(), windowSizeClass) }
                     composable(
                         "DetailsFilm/{movieId}",
                         arguments = listOf(navArgument("movieId") { type = NavType.IntType })
@@ -128,7 +184,7 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun BottomNavBar(navController: NavController) {
-    val destinations = listOf("Acceuil", "EcranFilms", "EcranSeries", "EcranActeurs")
+    val destinations = listOf(Acceuil(), EcranFilms(), EcranSeries(), EcranActeurs())
     val labels = listOf("Accueil", "Films", "Séries", "Acteurs")
     val icons = listOf(R.drawable.home, R.drawable.movie, R.drawable.tv, R.drawable.person)
     val currentBackStackEntry = navController.currentBackStackEntryAsState()
@@ -142,7 +198,7 @@ fun BottomNavBar(navController: NavController) {
                 icon = {
                     Icon(
                         painter = painterResource(id = icons[index]),
-                        contentDescription = destination,
+                        contentDescription = "",
                         modifier = Modifier.size(35.dp)
                     )
                 },
@@ -182,7 +238,7 @@ fun SearchBar(
         modifier = Modifier
             .fillMaxWidth()
             .background(Color.White)
-            .padding(8.dp),
+            .padding(4.dp),
         placeholder = { Text("Rechercher...") },
         leadingIcon = {
             Icon(

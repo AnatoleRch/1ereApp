@@ -22,12 +22,15 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.window.core.layout.WindowSizeClass
+import androidx.window.core.layout.WindowWidthSizeClass
 import coil.compose.AsyncImage
 
 @Composable
 fun EcranSeries(
     navController: NavController,
     viewModel: MainViewModel,
+    windowSizeClass: WindowSizeClass
 ){
 
     val series by viewModel.tvShow.collectAsState()
@@ -36,16 +39,32 @@ fun EcranSeries(
         viewModel.get_series_tendance()
     }
 
-    // Affichage des films en 2 colonnes avec affichage des posters et titres
-    LazyVerticalGrid(
-        columns = GridCells.Fixed(2), // Utilise 2 colonnes
-        modifier = Modifier.padding(8.dp),
+    when (windowSizeClass.windowWidthSizeClass) {
+        WindowWidthSizeClass.COMPACT -> {
+            LazyVerticalGrid(
+                columns = GridCells.Fixed(2), // Utilise 2 colonnes
+                modifier = Modifier.padding(8.dp),
 
-        ) {
-        items(series) { serie ->
-            SerieItem(serie = serie, onClick = {
-                navController.navigate("DetailsSerie/${serie.id}")
-            })
+                ) {
+                items(series) { serie ->
+                    SerieItem(serie = serie, onClick = {
+                        navController.navigate("DetailsSerie/${serie.id}")
+                    })
+                }
+            }
+        }
+        else -> {
+            LazyVerticalGrid(
+                columns = GridCells.Fixed(4), // Utilise 2 colonnes
+                modifier = Modifier.padding(8.dp),
+
+                ) {
+                items(series) { serie ->
+                    SerieItem(serie = serie, onClick = {
+                        navController.navigate("DetailsSerie/${serie.id}")
+                    })
+                }
+            }
         }
     }
 }

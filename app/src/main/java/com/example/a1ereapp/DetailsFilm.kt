@@ -4,6 +4,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -35,17 +36,16 @@ fun DetailsFilm(
     navController: NavController,
     viewModel: MainViewModel,
     id: Int,
-    windowClass: WindowSizeClass
+    WindowSizeClass: WindowSizeClass
 ) {
     LaunchedEffect(id) {
     viewModel.get_details_film(id)
 }
 
     val filmDetails by viewModel.movieDetails.collectAsState()
-
     filmDetails.let { film ->
         LazyColumn(modifier = Modifier.fillMaxSize()) {
-            when (windowClass.windowWidthSizeClass) {
+            when (WindowSizeClass.windowWidthSizeClass) {
                 WindowWidthSizeClass.COMPACT -> {
                     item {
                         AsyncImage(
@@ -56,55 +56,29 @@ fun DetailsFilm(
                                 .fillMaxWidth()
                                 .height(250.dp)
                         )
+
                     }
+                    item {details(film)}
                 }
 
-                else -> {}
-            }
-            item {
-                Text(
-                    text = film.title,
-                    style = MaterialTheme.typography.headlineLarge,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier.padding(16.dp)
-                )
-            }
-            item {
-                Row(modifier = Modifier.padding(16.dp)) {
-                    AsyncImage(
-                        model = "https://image.tmdb.org/t/p/w500${film.poster_path}",
-                        contentDescription = null,
-                        modifier = Modifier
-                            .width(150.dp)
-                            .height(225.dp)
-                    )
-                    Column(modifier = Modifier.padding(start = 16.dp)) {
-                        Text(
-                            text = "Date de sortie : ",
-                            fontWeight = FontWeight.SemiBold
-                        )
-                        Text(
-                            text = "${film.release_date}",
-                            modifier = Modifier.padding(12.dp),
-                            fontWeight = FontWeight.Medium
-                        )
-                        Text(
-                            text = "Genres : ",
-                            fontWeight = FontWeight.SemiBold
-                        )
-                        Text(
-                            text = "${film.genres.joinToString { it.name }}",
-                            modifier = Modifier.padding(12.dp),
-                            fontWeight = FontWeight.Medium
-                        )
-                        Text(text = "Note : ",
-                            fontWeight = FontWeight.SemiBold
-                        )
-                        Text(
-                            text = "${film.vote_average}/10",
-                            modifier = Modifier.padding(12.dp),
-                            fontWeight = FontWeight.Medium
-                        )
+                else -> {
+
+                    item {
+                        Row(
+                            modifier = Modifier.fillMaxWidth()
+                                .padding(bottom = 16.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            details(film)
+                            AsyncImage(
+                                model = "https://image.tmdb.org/t/p/w500${film.backdrop_path}",
+                                contentDescription = "Image du film",
+                                contentScale = ContentScale.Crop,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .fillMaxHeight()
+                            )
+                        }
                     }
                 }
             }
@@ -180,4 +154,55 @@ fun DetailsFilm(
             }
         }
     }
+}
+
+@Composable
+fun details(film: DetailsDuFilm) {
+        Column(modifier = Modifier.width(390.dp).padding(start = 16.dp)) {
+        Text(
+            text = film.title,
+            style = MaterialTheme.typography.headlineLarge,
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier.padding(16.dp)
+        )
+
+        Row() {
+            AsyncImage(
+                model = "https://image.tmdb.org/t/p/w500${film.poster_path}",
+                contentDescription = null,
+                modifier = Modifier
+                    .width(150.dp)
+                    .height(225.dp)
+            )
+            Column(modifier = Modifier.padding(horizontal = 16.dp)) {
+                Text(
+                    text = "Date de sortie : ",
+                    fontWeight = FontWeight.SemiBold
+                )
+                Text(
+                    text = "${film.release_date}",
+                    modifier = Modifier.padding(12.dp),
+                    fontWeight = FontWeight.Medium
+                )
+                Text(
+                    text = "Genres : ",
+                    fontWeight = FontWeight.SemiBold
+                )
+                Text(
+                    text = "${film.genres.joinToString { it.name }}",
+                    modifier = Modifier.padding(12.dp),
+                    fontWeight = FontWeight.Medium
+                )
+                Text(text = "Note : ",
+                    fontWeight = FontWeight.SemiBold
+                )
+                Text(
+                    text = "${film.vote_average}/10",
+                    modifier = Modifier.padding(12.dp),
+                    fontWeight = FontWeight.Medium
+                )
+            }
+        }
+        }
+
 }
