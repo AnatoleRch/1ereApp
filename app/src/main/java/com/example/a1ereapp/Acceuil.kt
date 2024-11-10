@@ -84,7 +84,7 @@ fun Photo() {
     Image(
         painterResource(id = R.drawable.bonbon),
         contentDescription = "Des bonbons !",
-        contentScale = ContentScale.Crop,            // crop the image if it's not a square
+        contentScale = ContentScale.Crop,
         modifier = Modifier
             .size(250.dp)
             .clip(CircleShape)
@@ -123,7 +123,7 @@ fun Coordonnees() {
         Image(
             painterResource(id = R.drawable.linkedin),
             contentDescription = "Icon Linkedin",
-            contentScale = ContentScale.Crop,            // crop the image if it's not a square
+            contentScale = ContentScale.Crop,
             modifier = Modifier.size(23.dp)
         )
         Text(
@@ -137,7 +137,7 @@ fun Coordonnees() {
         Image(
             painterResource(id = R.drawable.gmail),
             contentDescription = "Icon mail",
-            contentScale = ContentScale.Crop,            // crop the image if it's not a square
+            contentScale = ContentScale.Crop,
             modifier = Modifier.size(23.dp)
         )
         Text(

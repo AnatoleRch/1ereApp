@@ -4,11 +4,13 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Icon
@@ -26,8 +28,10 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.window.core.layout.WindowSizeClass
+import androidx.window.core.layout.WindowWidthSizeClass
 import coil.compose.AsyncImage
 
 @Composable
@@ -46,33 +50,87 @@ fun DetailsActeur(
 
     actor?.let { actorDetails ->
         LazyColumn(modifier = Modifier.fillMaxSize()) {
-            item {
-                Row() {
-                    if (actorDetails.profile_path == null) {
-                        Icon(
-                            painter = painterResource(id = R.drawable.person),
-                            contentDescription = "user Icon",
-                            modifier = Modifier.size(600.dp)
-                        )
-                    } else {
-                        AsyncImage(
-                            model = "https://image.tmdb.org/t/p/w500${actorDetails.profile_path}",
-                            contentDescription = null,
-                            contentScale = ContentScale.Crop,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(600.dp)
-                        )
+            when (windowSizeClass.windowWidthSizeClass) {
+                WindowWidthSizeClass.COMPACT -> {
+                    item {
+                        if (actorDetails.profile_path == null) {
+                            Icon(
+                                painter = painterResource(id = R.drawable.person),
+                                contentDescription = "user Icon",
+                                modifier = Modifier.size(600.dp)
+                            )
+                            Text(
+                                text = actorDetails.name,
+                                style = MaterialTheme.typography.headlineLarge,
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 40.sp,
+                                modifier = Modifier.padding(16.dp)
+                            )
+                        } else {
+                            AsyncImage(
+                                model = "https://image.tmdb.org/t/p/w500${actorDetails.profile_path}",
+                                contentDescription = null,
+                                contentScale = ContentScale.Crop,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(600.dp)
+                            )
+                            Text(
+                                text = actorDetails.name,
+                                style = MaterialTheme.typography.headlineLarge,
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 40.sp,
+                                modifier = Modifier.padding(16.dp)
+                            )
+                        }
                     }
                 }
-            }
-            item {
-                Text(
-                    text = actorDetails.name,
-                    style = MaterialTheme.typography.headlineLarge,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier.padding(16.dp)
-                )
+                else -> {
+                    item {
+                        if (actorDetails.profile_path == null) {
+                            Row() {
+                                Icon(
+                                    painter = painterResource(id = R.drawable.person),
+                                    contentDescription = "user Icon",
+                                    modifier = Modifier.size(350.dp).padding(16.dp)
+
+                                )
+                                Column(
+                                    verticalArrangement = Arrangement.Center,
+                                    modifier = Modifier.height(350.dp).fillMaxWidth()
+                                ) {
+                                    Text(
+                                        text = actorDetails.name,
+                                        style = MaterialTheme.typography.headlineLarge,
+                                        fontWeight = FontWeight.Bold,
+                                        fontSize = 70.sp,
+                                        modifier = Modifier.padding(16.dp)
+                                    )
+                                }
+                            }
+                        } else {
+                            Row() {
+                            AsyncImage(
+                                model = "https://image.tmdb.org/t/p/w500${actorDetails.profile_path}",
+                                contentDescription = null,
+                                modifier = Modifier
+                                    .height(350.dp)
+                                    .padding(16.dp)
+                            )
+                                Column(verticalArrangement = Arrangement.Center,
+                                modifier = Modifier.height(350.dp).fillMaxWidth()){
+                                    Text(
+                                        text = actorDetails.name,
+                                        style = MaterialTheme.typography.headlineLarge,
+                                        fontWeight = FontWeight.Bold,
+                                        fontSize = 70.sp,
+                                        modifier = Modifier.padding(16.dp)
+                                    )
+                                }
+                        }
+                        }
+                    }
+                }
             }
             item {
                 if (actorDetails.birthday != null && actorDetails.place_of_birth != null) {

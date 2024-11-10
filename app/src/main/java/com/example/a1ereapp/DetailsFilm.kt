@@ -36,7 +36,7 @@ fun DetailsFilm(
     navController: NavController,
     viewModel: MainViewModel,
     id: Int,
-    WindowSizeClass: WindowSizeClass
+    windowSizeClass: WindowSizeClass
 ) {
     LaunchedEffect(id) {
     viewModel.get_details_film(id)
@@ -45,7 +45,7 @@ fun DetailsFilm(
     val filmDetails by viewModel.movieDetails.collectAsState()
     filmDetails.let { film ->
         LazyColumn(modifier = Modifier.fillMaxSize()) {
-            when (WindowSizeClass.windowWidthSizeClass) {
+            when (windowSizeClass.windowWidthSizeClass) {
                 WindowWidthSizeClass.COMPACT -> {
                     item {
                         AsyncImage(
@@ -58,18 +58,17 @@ fun DetailsFilm(
                         )
 
                     }
-                    item {details(film)}
+                    item {Details(film)}
                 }
 
                 else -> {
 
                     item {
                         Row(
-                            modifier = Modifier.fillMaxWidth()
-                                .padding(bottom = 16.dp),
+                            modifier = Modifier.fillMaxWidth(),
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-                            details(film)
+                            Details(film)
                             AsyncImage(
                                 model = "https://image.tmdb.org/t/p/w500${film.backdrop_path}",
                                 contentDescription = "Image du film",
@@ -77,6 +76,7 @@ fun DetailsFilm(
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .fillMaxHeight()
+                                    .padding(top = 16.dp, end = 16.dp)
                             )
                         }
                     }
@@ -157,8 +157,8 @@ fun DetailsFilm(
 }
 
 @Composable
-fun details(film: DetailsDuFilm) {
-        Column(modifier = Modifier.width(390.dp).padding(start = 16.dp).padding(bottom = 16.dp)) {
+fun Details(film: DetailsDuFilm) {
+    Column(modifier = Modifier.width(350.dp).padding(start = 16.dp).padding(bottom = 16.dp)) {
         Text(
             text = film.title,
             style = MaterialTheme.typography.headlineLarge,
@@ -203,6 +203,5 @@ fun details(film: DetailsDuFilm) {
                 )
             }
         }
-        }
-
+    }
 }

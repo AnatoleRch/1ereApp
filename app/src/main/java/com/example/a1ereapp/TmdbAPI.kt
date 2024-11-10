@@ -28,17 +28,20 @@ interface TmdbAPI {
 
     @GET("trending/movie/week")
     suspend fun films_tendance(
-        @Query("api_key") api_key:String
+        @Query("api_key") api_key:String,
+        @Query("language") language: String ="fr"
     ): Films
 
     @GET("trending/tv/week")
     suspend fun series_tendance(
-        @Query("api_key") api_key:String
+        @Query("api_key") api_key:String,
+        @Query("language") language: String ="fr"
     ): Series
 
     @GET("trending/person/week")
     suspend fun acteurs_tendance(
-        @Query("api_key") api_key:String
+        @Query("api_key") api_key:String,
+        @Query("language") language: String ="fr"
     ): Acteurs
 
     @GET("movie/{id}")

@@ -7,7 +7,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
-import retrofit2.http.Query
 
 class MainViewModel() : ViewModel() {
     val apikey = "317519a83cc36ab9367ba50e5aa75b40"

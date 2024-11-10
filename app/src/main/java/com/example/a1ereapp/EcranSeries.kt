@@ -42,7 +42,7 @@ fun EcranSeries(
     when (windowSizeClass.windowWidthSizeClass) {
         WindowWidthSizeClass.COMPACT -> {
             LazyVerticalGrid(
-                columns = GridCells.Fixed(2), // Utilise 2 colonnes
+                columns = GridCells.Fixed(2),
                 modifier = Modifier.padding(8.dp),
 
                 ) {
@@ -55,7 +55,7 @@ fun EcranSeries(
         }
         else -> {
             LazyVerticalGrid(
-                columns = GridCells.Fixed(4), // Utilise 2 colonnes
+                columns = GridCells.Fixed(4),
                 modifier = Modifier.padding(8.dp),
 
                 ) {

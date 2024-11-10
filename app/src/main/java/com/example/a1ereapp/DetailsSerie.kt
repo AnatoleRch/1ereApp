@@ -4,6 +4,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -51,64 +52,35 @@ fun DetailsSerie(
                     item {
                         AsyncImage(
                             model = "https://image.tmdb.org/t/p/w500${serie.backdrop_path}",
-                            contentDescription = "Image de la série",
+                            contentDescription = "Image du film",
                             contentScale = ContentScale.Crop,
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .height(250.dp)
                         )
+
                     }
+                    item {Details(serie)}
                 }
 
-                else -> {}
-            }
-            item {
-                Text(
-                    text = serie.name,
-                    style = MaterialTheme.typography.headlineLarge,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier.padding(16.dp)
-                )
-            }
-            item {
-                Row(modifier = Modifier.padding(16.dp)) {
-                    AsyncImage(
-                        model = "https://image.tmdb.org/t/p/w500${serie.poster_path}",
-                        contentDescription = "poster de la série",
-                        modifier = Modifier
-                            .width(150.dp)
-                            .height(225.dp)
-                    )
-                    Column(modifier = Modifier.padding(start = 16.dp)) {
-                        Text(
-                            text = "Date de sortie : ",
-                            fontWeight = FontWeight.SemiBold,
-                            modifier = Modifier.padding(top = 16.dp)
-                        )
-                        Text(
-                            text = "${serie.first_air_date}",
-                            modifier = Modifier.padding(8.dp).padding(horizontal = 8.dp),
-                            fontWeight = FontWeight.Medium
-                        )
-                        Text(
-                            text = "Genres : ",
-                            fontWeight = FontWeight.SemiBold,
-                            modifier = Modifier.padding(top = 16.dp)
-                        )
-                        Text(
-                            text = "${serie.genres.joinToString { it.name }}",
-                            modifier = Modifier.padding(8.dp).padding(horizontal = 8.dp),
-                            fontWeight = FontWeight.Medium
-                        )
-                        Text(text = "Note : ",
-                            fontWeight = FontWeight.SemiBold,
-                            modifier = Modifier.padding(top = 16.dp)
-                        )
-                        Text(
-                            text = "${serie.vote_average}/10",
-                            modifier = Modifier.padding(8.dp).padding(horizontal = 8.dp),
-                            fontWeight = FontWeight.Medium
-                        )
+                else -> {
+
+                    item {
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Details(serie)
+                            AsyncImage(
+                                model = "https://image.tmdb.org/t/p/w500${serie.backdrop_path}",
+                                contentDescription = "Image du film",
+                                contentScale = ContentScale.Crop,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .fillMaxHeight()
+                                    .padding(top = 16.dp, end = 16.dp)
+                            )
+                        }
                     }
                 }
             }
@@ -183,6 +155,56 @@ fun DetailsSerie(
                 } else {
                     Text(text = "Aucun acteur trouvé.", modifier = Modifier.padding(16.dp))
                 }
+            }
+        }
+    }
+}
+
+@Composable
+fun Details(serie: DetailsDeLaSerie) {
+    Column(modifier = Modifier.width(350.dp).padding(start = 16.dp).padding(bottom = 16.dp)) {
+        Text(
+            text = serie.name,
+            style = MaterialTheme.typography.headlineLarge,
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier.padding(16.dp)
+        )
+
+        Row() {
+            AsyncImage(
+                model = "https://image.tmdb.org/t/p/w500${serie.poster_path}",
+                contentDescription = null,
+                modifier = Modifier
+                    .width(150.dp)
+                    .height(225.dp)
+            )
+            Column(modifier = Modifier.padding(horizontal = 16.dp)) {
+                Text(
+                    text = "Date de sortie : ",
+                    fontWeight = FontWeight.SemiBold
+                )
+                Text(
+                    text = "${serie.first_air_date}",
+                    modifier = Modifier.padding(12.dp),
+                    fontWeight = FontWeight.Medium
+                )
+                Text(
+                    text = "Genres : ",
+                    fontWeight = FontWeight.SemiBold
+                )
+                Text(
+                    text = "${serie.genres.joinToString { it.name }}",
+                    modifier = Modifier.padding(12.dp),
+                    fontWeight = FontWeight.Medium
+                )
+                Text(text = "Note : ",
+                    fontWeight = FontWeight.SemiBold
+                )
+                Text(
+                    text = "${serie.vote_average}/10",
+                    modifier = Modifier.padding(12.dp),
+                    fontWeight = FontWeight.Medium
+                )
             }
         }
     }
