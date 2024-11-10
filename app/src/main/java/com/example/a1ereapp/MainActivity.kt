@@ -51,7 +51,7 @@ import androidx.window.core.layout.WindowWidthSizeClass
 
 
 @Serializable
-class Acceuil
+class Accueil
 @Serializable
 class EcranFilms
 @Serializable
@@ -129,7 +129,7 @@ class MainActivity : ComponentActivity() {
                     }
                 },
                 bottomBar = {
-                    if (currentDestination?.hasRoute<Acceuil>() != true) {
+                    if (currentDestination?.hasRoute<Accueil>() != true) {
                         when (windowSizeClass.windowWidthSizeClass) {
                             WindowWidthSizeClass.COMPACT -> {
                                 BottomNavBar(navController)
@@ -140,7 +140,7 @@ class MainActivity : ComponentActivity() {
 
             ) { innerPadding ->
                 Row() {
-                    if (currentDestination?.hasRoute<Acceuil>() != true) {
+                    if (currentDestination?.hasRoute<Accueil>() != true) {
                         Column( modifier= Modifier.background(color = Color(0xFFefe9f4))) {
                             when (windowSizeClass.windowWidthSizeClass) {
                                 WindowWidthSizeClass.EXPANDED -> {
@@ -153,10 +153,10 @@ class MainActivity : ComponentActivity() {
                 Column(){
                 NavHost(
                     navController = navController,
-                    startDestination = Acceuil(),
+                    startDestination = Accueil(),
                     Modifier.padding(innerPadding)
                 ) {
-                    composable<Acceuil> { Acceuil(navController, windowSizeClass) }
+                    composable<Accueil> { Accueil(navController, windowSizeClass) }
                     composable<EcranFilms> { EcranFilms(navController, viewModel, windowSizeClass) }
                     composable<EcranSeries> { EcranSeries(navController, viewModel, windowSizeClass) }
                     composable<EcranActeurs> { EcranActeurs(navController, viewModel, windowSizeClass) }
@@ -214,7 +214,7 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun BottomNavBar(navController: NavController) {
-    val destinations = listOf(Acceuil(), EcranFilms(), EcranSeries(), EcranActeurs())
+    val destinations = listOf(Accueil(), EcranFilms(), EcranSeries(), EcranActeurs())
     val labels = listOf("Accueil", "Films", "Séries", "Acteurs")
     val icons = listOf(R.drawable.home, R.drawable.movie, R.drawable.tv, R.drawable.person)
     val currentBackStackEntry = navController.currentBackStackEntryAsState()
@@ -252,7 +252,7 @@ fun BottomNavBar(navController: NavController) {
 
 @Composable
 fun SideNavBar(navController: NavController) {
-    val destinations = listOf(Acceuil(), EcranFilms(), EcranSeries(), EcranActeurs())
+    val destinations = listOf(Accueil(), EcranFilms(), EcranSeries(), EcranActeurs())
     val labels = listOf("Accueil", "Films", "Séries", "Acteurs")
     val icons = listOf(R.drawable.home, R.drawable.movie, R.drawable.tv, R.drawable.person)
     val currentBackStackEntry = navController.currentBackStackEntryAsState()

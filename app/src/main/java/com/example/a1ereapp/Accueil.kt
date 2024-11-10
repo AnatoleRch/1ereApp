@@ -29,7 +29,7 @@ import androidx.window.core.layout.WindowSizeClass
 import androidx.window.core.layout.WindowWidthSizeClass
 
 @Composable
-fun Acceuil( navController: NavController, windowSizeClass: WindowSizeClass) {
+fun Accueil( navController: NavController, windowSizeClass: WindowSizeClass) {
     when (windowSizeClass.windowWidthSizeClass) {
         WindowWidthSizeClass.COMPACT -> {
             Column(
