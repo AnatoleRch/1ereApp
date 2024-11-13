@@ -288,3 +288,14 @@ data class CastActeur(
     val vote_average: Double = 0.0,
     val vote_count: Int = 0
 )
+
+data class Collection(
+    val adult: Boolean = false,
+    val backdropPath: String = "",
+    val id: Double = 0.0,
+    val name: String = "",
+    val originalLanguage: String = "",
+    val originalName: String = "",
+    val overview: String = "",
+    val posterPath: String = "",
+)
