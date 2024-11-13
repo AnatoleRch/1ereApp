@@ -58,6 +58,8 @@ class EcranFilms
 class EcranSeries
 @Serializable
 class EcranActeurs
+@Serializable
+class Exam
 
 
 class MainActivity : ComponentActivity() {
@@ -144,7 +146,7 @@ class MainActivity : ComponentActivity() {
                         Column( modifier= Modifier.background(color = Color(0xFFefe9f4))) {
                             when (windowSizeClass.windowWidthSizeClass) {
                                 WindowWidthSizeClass.EXPANDED -> {
-                                    Spacer(modifier = Modifier.height(25.dp))
+
                                     SideNavBar(navController)
                                 }
                             }
@@ -160,6 +162,7 @@ class MainActivity : ComponentActivity() {
                     composable<EcranFilms> { EcranFilms(navController, viewModel, windowSizeClass) }
                     composable<EcranSeries> { EcranSeries(navController, viewModel, windowSizeClass) }
                     composable<EcranActeurs> { EcranActeurs(navController, viewModel, windowSizeClass) }
+                    composable<Exam> { Exam(windowSizeClass) }
                     composable(
                         "DetailsFilm/{movieId}",
                         arguments = listOf(navArgument("movieId") { type = NavType.IntType })
@@ -214,9 +217,9 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun BottomNavBar(navController: NavController) {
-    val destinations = listOf(Accueil(), EcranFilms(), EcranSeries(), EcranActeurs())
-    val labels = listOf("Accueil", "Films", "Séries", "Acteurs")
-    val icons = listOf(R.drawable.home, R.drawable.movie, R.drawable.tv, R.drawable.person)
+    val destinations = listOf(Accueil(), EcranFilms(), EcranSeries(), EcranActeurs(), Exam())
+    val labels = listOf("Accueil", "Films", "Séries", "Acteurs", "Exam")
+    val icons = listOf(R.drawable.home, R.drawable.movie, R.drawable.tv, R.drawable.person, R.drawable.home)
     val currentBackStackEntry = navController.currentBackStackEntryAsState()
     val currentRoute = currentBackStackEntry.value?.destination?.route
     NavigationBar(
@@ -252,9 +255,9 @@ fun BottomNavBar(navController: NavController) {
 
 @Composable
 fun SideNavBar(navController: NavController) {
-    val destinations = listOf(Accueil(), EcranFilms(), EcranSeries(), EcranActeurs())
-    val labels = listOf("Accueil", "Films", "Séries", "Acteurs")
-    val icons = listOf(R.drawable.home, R.drawable.movie, R.drawable.tv, R.drawable.person)
+    val destinations = listOf(Accueil(), EcranFilms(), EcranSeries(), EcranActeurs(), Exam())
+    val labels = listOf("Accueil", "Films", "Séries", "Acteurs", "Exam")
+    val icons = listOf(R.drawable.home, R.drawable.movie, R.drawable.tv, R.drawable.person, R.drawable.home)
     val currentBackStackEntry = navController.currentBackStackEntryAsState()
     val currentRoute = currentBackStackEntry.value?.destination?.route
 
