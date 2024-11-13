@@ -16,7 +16,7 @@ class MainViewModel() : ViewModel() {
     val movieDetails = MutableStateFlow<DetailsDuFilm>(DetailsDuFilm())
     val tvShowDetails = MutableStateFlow<DetailsDeLaSerie>(DetailsDeLaSerie())
     val actorDetails = MutableStateFlow<DetailsDeLActeur>(DetailsDeLActeur())
-    val collection = MutableStateFlow<List<Collection>>(listOf())
+    val collections = MutableStateFlow<List<Collection>>(listOf())
 
     val service = Retrofit.Builder()
         .baseUrl("https://api.themoviedb.org/3/")
@@ -89,7 +89,7 @@ class MainViewModel() : ViewModel() {
     fun get_collection(query: String) {
         viewModelScope.launch {
             try {
-                collection.value = service.collection(apikey, query).results
+                collections.value = service.collection(apikey, query).results
             } catch (e: Exception) {
                 Log.e("MainViewModel", "Erreur lors de la recherche des acteurs", e)
             }
@@ -99,7 +99,7 @@ class MainViewModel() : ViewModel() {
     fun get_collection_horror(query: String = "horror") {
         viewModelScope.launch {
             try {
-                collection.value = service.collection(apikey, query).results
+                collections.value = service.collection(apikey, query).results
             } catch (e: Exception) {
                 Log.e("MainViewModel", "Erreur lors de la recherche des acteurs", e)
             }

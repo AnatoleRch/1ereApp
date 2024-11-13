@@ -8,10 +8,8 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
@@ -162,7 +160,7 @@ class MainActivity : ComponentActivity() {
                     composable<EcranFilms> { EcranFilms(navController, viewModel, windowSizeClass) }
                     composable<EcranSeries> { EcranSeries(navController, viewModel, windowSizeClass) }
                     composable<EcranActeurs> { EcranActeurs(navController, viewModel, windowSizeClass) }
-                    composable<Exam> { Exam(windowSizeClass) }
+                    composable<Exam> { Exam(viewModel) }
                     composable(
                         "DetailsFilm/{movieId}",
                         arguments = listOf(navArgument("movieId") { type = NavType.IntType })
