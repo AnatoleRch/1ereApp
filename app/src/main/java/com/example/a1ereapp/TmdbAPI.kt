@@ -67,4 +67,10 @@ interface TmdbAPI {
         @Query("append_to_response") appendToResponse: String = "credits",
         @Query("language") language: String ="fr"
     ): DetailsDeLActeur
+
+    @GET("search/collection")
+    suspend fun collection(
+        @Query("api_key") api_key: String,
+        @Query("query") query: String
+    ): Collections
 }

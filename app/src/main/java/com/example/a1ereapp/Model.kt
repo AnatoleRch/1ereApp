@@ -289,6 +289,13 @@ data class CastActeur(
     val vote_count: Int = 0
 )
 
+data class Collections(
+    val page: Int = 0,
+    val results: List<Collection> = listOf(),
+    val total_pages: Int = 0,
+    val total_results: Int = 0
+)
+
 data class Collection(
     val adult: Boolean = false,
     val backdropPath: String = "",
