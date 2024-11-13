@@ -298,11 +298,11 @@ data class Collections(
 
 data class Collection(
     val adult: Boolean = false,
-    val backdropPath: String = "",
+    val backdrop_path: String = "",
     val id: Double = 0.0,
     val name: String = "",
-    val originalLanguage: String = "",
-    val originalName: String = "",
+    val original_language: String = "",
+    val original_name: String = "",
     val overview: String = "",
-    val posterPath: String = "",
+    val poster_path: String = ""
 )
